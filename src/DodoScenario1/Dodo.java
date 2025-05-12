@@ -206,8 +206,17 @@ public abstract class Dodo extends Actor
     
     public void turn180() {
         for (int i = 0; i < 2; i++) {
-      turnLeft();
-    }  
+          turnLeft();
+        }  
+    }
+    
+    public void walkToEdge(){
+        while ( borderAhead() == false){
+            while ( fenceAhead() == true){
+                turnLeft();
+            }
+            step();
+        }
     }
 
     protected void showError ( String err_msg ) {
