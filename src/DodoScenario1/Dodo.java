@@ -203,6 +203,12 @@ public abstract class Dodo extends Actor
     public void turnRight() {
         setDirection( modulo( myDirection+1, 4 ) );
     }
+    
+    public void turn180() {
+        for (int i = 0; i < 2; i++) {
+      turnLeft();
+    }  
+    }
 
     protected void showError ( String err_msg ) {
         Message.showMessage(  new Alert( err_msg ), getWorld() );
