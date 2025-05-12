@@ -15,6 +15,7 @@ public class MyDodo extends Dodo
     }
 
     public void act() {
+        move();
     }
 
     /**
@@ -44,7 +45,7 @@ public class MyDodo extends Dodo
      *                      (an obstruction or end of world ahead)
      */
     public boolean canMove() {
-        if ( borderAhead() ){
+        if ( borderAhead()||fenceAhead() ){
             return false;
         } else {
             return true;
@@ -122,12 +123,12 @@ public class MyDodo extends Dodo
      *                 false if Dodo can't lay an egg
      *                      (already an egg in the cell)
      */
-
+    
     public boolean canLayEgg( ){
-//        if( onEgg() ){
-            // E
-//        }else{
+           if( onEgg() ){
+            return false;
+           }else{
             return true;
-//        }
+          }
     }  
 }
