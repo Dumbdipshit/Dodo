@@ -218,6 +218,16 @@ public abstract class Dodo extends Actor
             step();
         }
     }
+    
+    public void climbOverFence(){
+            while ( fenceAhead() == true){
+                turnLeft();
+                if(fenceAhead()== false){
+                    step();
+                    turnRight();
+                }
+            }
+    }
 
     protected void showError ( String err_msg ) {
         Message.showMessage(  new Alert( err_msg ), getWorld() );
