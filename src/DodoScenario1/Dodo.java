@@ -215,17 +215,21 @@ public abstract class Dodo extends Actor
             while ( fenceAhead() == true){
                 turnLeft();
             }
-            step();
+            move(-1);
         }
     }
     
     public void climbOverFence(){
-            while ( fenceAhead() == true){
+            while(fenceAhead()==true){
                 turnLeft();
-                if(fenceAhead()== false){
+                step();
+                turnRight();
+                for(int i = 0; i< 2; i++){
                     step();
-                    turnRight();
                 }
+                turnRight();
+                step();
+                turnLeft();
             }
     }
 
