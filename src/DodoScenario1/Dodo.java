@@ -232,6 +232,22 @@ public abstract class Dodo extends Actor
                 turnLeft();
             }
     }
+    
+    public boolean grainAhead(){
+        boolean grain = false;
+        step();
+        
+        if(onGrain()==true){
+            grain = true;
+        }else{
+            grain = false;
+        }
+        
+        turn180();
+        step();
+        turn180();
+        return grain;
+    }
 
     protected void showError ( String err_msg ) {
         Message.showMessage(  new Alert( err_msg ), getWorld() );
