@@ -209,45 +209,6 @@ public abstract class Dodo extends Actor
           turnLeft();
         }  
     }
-    
-    public void walkToEdge(){
-        while ( borderAhead() == false){
-            while ( fenceAhead() == true){
-                turnLeft();
-            }
-            move(-1);
-        }
-    }
-    
-    public void climbOverFence(){
-            while(fenceAhead()==true){
-                turnLeft();
-                step();
-                turnRight();
-                for(int i = 0; i< 2; i++){
-                    step();
-                }
-                turnRight();
-                step();
-                turnLeft();
-            }
-    }
-    
-    public boolean grainAhead(){
-        boolean grain = false;
-        step();
-        
-        if(onGrain()==true){
-            grain = true;
-        }else{
-            grain = false;
-        }
-        
-        turn180();
-        step();
-        turn180();
-        return grain;
-    }
 
     protected void showError ( String err_msg ) {
         Message.showMessage(  new Alert( err_msg ), getWorld() );

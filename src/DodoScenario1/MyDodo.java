@@ -104,11 +104,61 @@ public class MyDodo extends Dodo
      *              Coordinates of each cell printed in the console.
      */
 
-    public void walkToWorldEdgePrintingCoordinates( ){
-        while( ! borderAhead() ){
-            // print coordinates
+    public void walkToWorldEdge( ){
+        while(borderAhead() == false){
+            if(onGrain()==true){
+                pickUpGrain();
+            }
+            climbOverFence();
             move();
         }
+    }
+    
+    public void layEggIn
+    
+    public void goToEgg(){
+        while(onEgg()==false || borderAhead()==true){
+            move();
+        }
+    }
+    
+        public void climbOverFence(){
+            while(fenceAhead()==true){
+                turnLeft();
+                move();
+                turnRight();
+                for(int i = 0; i< 2; i++){
+                    move();
+                }
+                turnRight();
+                move();
+                turnLeft();
+            }
+    }
+    
+    public void stepOneBack(){
+        turn180();
+        move();
+        turn180();
+    }
+    
+    public boolean grainAhead(){
+        boolean grain = false;
+        move();
+        
+        if(onGrain()==true){
+            grain = true;
+        }else{
+            grain = false;
+        }
+        stepOneBack();
+        return grain;
+    }
+    
+    public void goBackRowFaceBack(){
+        turn180();
+        walkToWorldEdge( );
+        turn180();
     }
 
     /**
