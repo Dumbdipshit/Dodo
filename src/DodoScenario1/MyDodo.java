@@ -106,15 +106,24 @@ public class MyDodo extends Dodo
 
     public void walkToWorldEdge( ){
         while(borderAhead() == false){
-            if(onGrain()==true){
-                pickUpGrain();
-            }
             climbOverFence();
             move();
         }
     }
     
-    public void layEggIn
+    public void pickUpGrainWhenWalking(){
+        walkToWorldEdge();
+        if(onGrain()==true){
+                pickUpGrain();
+            }
+    }
+    
+    public void layEggInNestWhenWalking(){
+        walkToWorldEdge();
+        if(onNest()==true && onEgg()==false){
+                layEgg();
+            }
+    }
     
     public void goToEgg(){
         while(onEgg()==false || borderAhead()==true){
