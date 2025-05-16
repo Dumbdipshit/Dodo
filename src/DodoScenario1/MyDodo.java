@@ -215,7 +215,15 @@ public class MyDodo extends Dodo
     }
     
     public void walkAroundFence(){
-    
+        if(fenceDown()==true || fenceUp()==true){
+            move();
+        }else{
+            if(getDirection()== 1 || getDirection()== 2){
+                turnRight();
+            }else{
+                turnLeft();
+            }move();
+        }
     }
     /**
      * Test if Dodo can lay an egg.
