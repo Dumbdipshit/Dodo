@@ -170,6 +170,53 @@ public class MyDodo extends Dodo
         turn180();
     }
 
+    public boolean fenceDown(){
+        if(getDirection()== 1 || getDirection()== 2){
+            turnRight();
+            if(fenceAhead()==true){
+                turnLeft();
+                return true;
+            }else{
+                turnLeft();
+                return false;
+            }
+        }else{
+            turnLeft();
+            if(fenceAhead()==true){
+                turnRight();
+                return true;
+            }else{
+                turnRight();
+                return false;
+            }
+        }
+    }
+    
+    public boolean fenceUp(){
+        if(getDirection()== 1 || getDirection()== 2){
+            turnLeft();
+            if(fenceAhead()==true){
+                turnRight();
+                return true;
+            }else{
+                turnRight();
+                return false;
+            }
+        }else{
+            turnRight();
+            if(fenceAhead()==true){
+                turnLeft();
+                return true;
+            }else{
+                turnLeft();
+                return false;
+            }
+        }
+    }
+    
+    public void walkAroundFence(){
+    
+    }
     /**
      * Test if Dodo can lay an egg.
      *          (there is not already an egg in the cell)
