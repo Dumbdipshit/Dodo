@@ -214,16 +214,31 @@ public class MyDodo extends Dodo
         }
     }
     
-    public void walkAroundFence(){
-        if(fenceDown()==true || fenceUp()==true){
-            move();
+    public void turnDirection(int StartingDirection){
+        if(StartingDirection == 1){
+            turnRight();
         }else{
-            if(getDirection()== 1 || getDirection()== 2){
-                turnRight();
-            }else{
-                turnLeft();
-            }move();
+            turnLeft();
         }
+    }
+    
+    public void walkAroundFence(){
+        int StartingDirection = getDirection();
+        int Direction = 1;
+        if(getDirection()== 1 || getDirection()== 2){
+            Direction = 1;
+        }else{
+            Direction = 2;
+        }
+        
+        while(onEgg() == false){
+            if(fenceDown()==true || fenceUp()==true){
+                move();
+            }else{
+                turnDirection(Direction);
+                move();
+            }
+        }setDirection(StartingDirection);
     }
     /**
      * Test if Dodo can lay an egg.
