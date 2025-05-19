@@ -169,7 +169,57 @@ public class MyDodo extends Dodo
         walkToWorldEdge( );
         turn180();
     }
+    
+    public void moveUp(int startingDirection){
+        if(startingDirection == 1){
+            turnLeft();
+            move();
+            turnRight();
+        }else{
+            turnRight();
+            move();
+            turnLeft();
+        }
+    }
+    public void moveDown(int startingDirection){
+        if(startingDirection == 1){
+            turnRight();
+            move();
+        }else{
+            turnLeft();
+            move();
+        }
+    }
 
+    public int setStartingDirection(){
+        if(getDirection()== 1 || getDirection()== 2){
+            return 1;
+        }else{
+            return 2;
+        }
+    }
+
+    public void walkAroundFence(){
+        int Direction = setStartingDirection();
+        
+        while(fenceAhead()== true){
+            moveUp(Direction);
+            
+        }
+        move();
+        while(fenceDown()==true){
+            move();
+        }
+        moveDown(Direction);
+        while(fenceDown()==true){
+            move();
+        }
+        moveDown(Direction);
+        while(fenceUp()==true){
+            move();
+        }
+    }
+    
     public boolean fenceDown(){
         if(getDirection()== 1 || getDirection()== 2){
             turnRight();
@@ -212,33 +262,6 @@ public class MyDodo extends Dodo
                 return false;
             }
         }
-    }
-    
-    public void turnDirection(int StartingDirection){
-        if(StartingDirection == 1){
-            turnRight();
-        }else{
-            turnLeft();
-        }
-    }
-    
-    public void walkAroundFence(){
-        int StartingDirection = getDirection();
-        int Direction = 1;
-        if(getDirection()== 1 || getDirection()== 2){
-            Direction = 1;
-        }else{
-            Direction = 2;
-        }
-        
-        while(onEgg() == false){
-            if(fenceDown()==true || fenceUp()==true){
-                move();
-            }else{
-                turnDirection(Direction);
-                move();
-            }
-        }setDirection(StartingDirection);
     }
     /**
      * Test if Dodo can lay an egg.
