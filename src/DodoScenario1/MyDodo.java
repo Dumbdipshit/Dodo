@@ -170,97 +170,31 @@ public class MyDodo extends Dodo
         turn180();
     }
     
-    public void moveUp(int startingDirection){
-        if(startingDirection == 1){
-            turnLeft();
-            move();
-            turnRight();
-        }else{
-            turnRight();
-            move();
-            turnLeft();
-        }
-    }
-    public void moveDown(int startingDirection){
-        if(startingDirection == 1){
-            turnRight();
-            move();
-        }else{
-            turnLeft();
-            move();
-        }
-    }
-
-    public int setStartingDirection(){
-        if(getDirection()== 1 || getDirection()== 2){
-            return 1;
-        }else{
-            return 2;
-        }
-    }
-
     public void walkAroundFence(){
-        int Direction = setStartingDirection();
-        
-        while(fenceAhead()== true){
-            moveUp(Direction);
-            
+        if(getDirection()== NORTH || getDirection()== WEST){
+            walkAroundFenceAntiClockWise();
+        }else{
+            walkAroundFenceClockWise();
         }
-        move();
-        while(fenceDown()==true){
-            move();
-        }
-        moveDown(Direction);
-        while(fenceDown()==true){
-            move();
-        }
-        moveDown(Direction);
-        while(fenceUp()==true){
+    }
+
+    private void walkAroundFenceClockWise(){
+        while(onEgg()==false){
+            turnRight();
+            while(fenceAhead()==true){
+                turnLeft();
+            }
             move();
         }
     }
     
-    public boolean fenceDown(){
-        if(getDirection()== 1 || getDirection()== 2){
-            turnRight();
-            if(fenceAhead()==true){
-                turnLeft();
-                return true;
-            }else{
-                turnLeft();
-                return false;
-            }
-        }else{
+    private void walkAroundFenceAntiClockWise(){
+        while(onEgg()==false){
             turnLeft();
-            if(fenceAhead()==true){
+            while(fenceAhead()==true){
                 turnRight();
-                return true;
-            }else{
-                turnRight();
-                return false;
             }
-        }
-    }
-    
-    public boolean fenceUp(){
-        if(getDirection()== 1 || getDirection()== 2){
-            turnLeft();
-            if(fenceAhead()==true){
-                turnRight();
-                return true;
-            }else{
-                turnRight();
-                return false;
-            }
-        }else{
-            turnRight();
-            if(fenceAhead()==true){
-                turnLeft();
-                return true;
-            }else{
-                turnLeft();
-                return false;
-            }
+            move();
         }
     }
     /**
