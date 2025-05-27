@@ -215,5 +215,57 @@ public class MyDodo extends Dodo
            }else{
             return true;
           }
-    }  
+    }
+    
+    public void followEggTrail(){
+        while(onNest() == false){
+            if(onEgg()== true){
+                hatchEgg();
+            }
+            while(eggAhead()==false){
+                if(nestAhead()==true){
+                    move();
+                }
+                if(onNest()==false){
+                    turnLeft();
+                }
+            }if(onNest()==false){
+                move();
+             }
+        }
+    }
+    
+    public void solveVerySimpleMaze(){
+        if(getDirection()== NORTH || getDirection()== WEST){
+            solveVerySimpleMazeAntiClockWise();
+        }else{
+            solveVerySimpleMazeClockWise();
+        }
+    }
+
+    private void solveVerySimpleMazeClockWise(){
+        while(onNest()==false){
+            turnRight();
+            while(fenceAhead()==true){
+                turnLeft();
+            }
+            move();
+        }
+    }
+    
+    private void solveVerySimpleMazeAntiClockWise(){
+        while(onNest()==false){
+            turnLeft();
+            while(fenceAhead()==true){
+                turnRight();
+            }
+            move();
+        }
+    }
+    
+    public void faceEast(){
+        while(getDirection()!= EAST){
+            turnLeft();
+        }
+    }
 }
