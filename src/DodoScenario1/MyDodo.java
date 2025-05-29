@@ -262,37 +262,52 @@ public class MyDodo extends Dodo
             move();
         }
     }
-    
-    public void faceEast(){
-        while(getDirection()!= EAST){
+    private void faceNorth(){
+        while(getDirection() != NORTH){
+            turnLeft();
+        }
+    }
+    private void faceEast(){
+        while(getDirection() != EAST){
+            turnLeft();
+        }
+    }
+    private void faceSouth(){
+        while(getDirection() != SOUTH){
+            turnLeft();
+        }
+    }
+    private void faceWest(){
+        while(getDirection() != WEST){
             turnLeft();
         }
     }
     
-    public void goToLocation(int xCord, int yCord){
+    private void alignToXCord(int xCord){
         if(getX() > xCord){
-            while(getDirection() != WEST){
-                turnLeft();
-            }
+            faceWest();
         }else{
             faceEast();
         }
-        while(getX()!=xCord){
+    }
+    
+    private void alignToYCord(int yCord){
+        if(getY() > yCord){
+            faceNorth();
+        }else{
+            faceSouth();
+        }
+    }
+    
+    public void goToLocation(int xCord, int yCord){
+        alignToXCord(xCord);
+        if(getX()!=xCord){
             if(canMove()==true){
                 move();
             }
         }
-        
-        if(getY() > yCord){
-            while(getDirection() != NORTH){
-                turnLeft();
-            }
-        }else{
-            while(getDirection() != SOUTH){
-                turnLeft();
-            }
-        }
-        while(getY()!=yCord){
+        alignToYCord(yCord);
+        if(getY()!=yCord){
             if(canMove()==true){
                 move();
             }
