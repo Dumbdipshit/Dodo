@@ -301,13 +301,13 @@ public class MyDodo extends Dodo
     
     public void goToLocation(int xCord, int yCord){
         alignToXCord(xCord);
-        if(getX()!=xCord){
+        while(getX()!=xCord){
             if(canMove()==true){
                 move();
             }
         }
         alignToYCord(yCord);
-        if(getY()!=yCord){
+        while(getY()!=yCord){
             if(canMove()==true){
                 move();
             }
