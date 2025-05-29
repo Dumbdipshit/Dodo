@@ -268,4 +268,34 @@ public class MyDodo extends Dodo
             turnLeft();
         }
     }
+    
+    public void goToLocation(int xCord, int yCord){
+        if(getX() > xCord){
+            while(getDirection() != WEST){
+                turnLeft();
+            }
+        }else{
+            faceEast();
+        }
+        while(getX()!=xCord){
+            if(canMove()==true){
+                move();
+            }
+        }
+        
+        if(getY() > yCord){
+            while(getDirection() != NORTH){
+                turnLeft();
+            }
+        }else{
+            while(getDirection() != SOUTH){
+                turnLeft();
+            }
+        }
+        while(getY()!=yCord){
+            if(canMove()==true){
+                move();
+            }
+        }
+    }
 }
