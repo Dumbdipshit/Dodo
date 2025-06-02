@@ -104,7 +104,7 @@ public class MyDodo extends Dodo
      *              Coordinates of each cell printed in the console.
      */
 
-    public void walkToWorldEdge( ){
+    public void walkToWorldEdge(){
         while(borderAhead() == false){
             climbOverFence();
             move();
@@ -312,5 +312,37 @@ public class MyDodo extends Dodo
                 move();
             }
         }
+    }
+    
+    public boolean validCordintes(int xCord, int yCord){
+        int worldHeight = getWorld().getHeight();
+        int worldWidth = getWorld().getWidth();
+        if(worldHeight < yCord || worldWidth < xCord || yCord < 0 || xCord < 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    public int countEggsInRow(){
+        int startingX = getX();
+        int startingY = getY();
+        int startingDir = getDirection();
+        int eggOnRow = 0;
+        goBackRowFaceBack();
+        while(borderAhead() == false){
+            if(onEgg()==true){
+                eggOnRow = eggOnRow + 1;
+            }
+            move();
+        }
+        if(onEgg()==true){
+                eggOnRow = eggOnRow + 1;
+        }
+        goToLocation(startingX, startingY);
+        while(getDirection() != startingDir){
+            turnLeft();
+        }
+        return eggOnRow;
     }
 }
