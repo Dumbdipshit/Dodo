@@ -345,4 +345,26 @@ public class MyDodo extends Dodo
         }
         return eggOnRow;
     }
+    
+    private int getRowLenght(int dir){
+        if(dir == 0 || dir == 2){
+             return getWorld().getHeight();
+        }else{
+             return getWorld().getWidth();
+        }
+    }
+    
+    public void layTrailOfEgg(int amount){
+            if(getRowLenght(getDirection()) > amount){
+                for(int i = 0; i < amount; i++){
+                    if(borderAhead()==false){
+                        layEgg();
+                        move();
+                    }
+                }
+                if(borderAhead()==false){
+                    stepOneBack();
+                }
+            }
+    }
 }
