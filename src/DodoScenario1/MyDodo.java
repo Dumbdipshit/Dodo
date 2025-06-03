@@ -367,4 +367,35 @@ public class MyDodo extends Dodo
                 }
             }
     }
+    
+    public void moveOneStepDown(){
+        int startingDir = getDirection();
+        
+        faceSouth();
+        if(borderAhead()==false){
+            move();
+        }
+        while(getDirection()!=startingDir){
+            turnLeft();
+        }
+    }
+    
+    public int getAmountEggInMap(){
+        int StartingX = getX();
+        int StartingY = getY();
+        int StartingDir = getDirection();
+        int amount = 0;
+        
+        goToLocation(0, 0);
+        faceEast();
+        for(int i = 0; i < getWorld().getHeight(); i++){
+            amount = amount + countEggsInRow();
+            moveOneStepDown();
+        }
+        goToLocation(StartingX, StartingY);
+        while(getDirection() != StartingDir){
+            turnLeft();
+        }
+        return amount;
+    }
 }
