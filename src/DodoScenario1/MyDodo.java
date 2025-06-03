@@ -433,4 +433,30 @@ public class MyDodo extends Dodo
         
         return total;
     }
+    
+    private void layEggTrailAndReturn(int amount){
+        for(int i = 0; i < amount; i++){
+            if(borderAhead()==false){
+                layEgg();
+                move();
+            }
+        }
+        if(borderAhead()==false){
+            stepOneBack();
+        }
+        for(int i = 0; i < amount; i++){
+            stepOneBack();
+        }
+    }
+
+    public void makeMonument(int height){
+        int layEgg = 0;
+        faceWest();
+        
+        for(int i = 0; i < height; i++){
+            layEgg = layEgg + 1;
+            layEggTrailAndReturn(layEgg);
+            moveOneStepDown();
+        } 
+    }
 }
