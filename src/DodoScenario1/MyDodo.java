@@ -425,4 +425,12 @@ public class MyDodo extends Dodo
         }
         return rowWithMostEgg;
     }
+    
+    public double getAverageEggOfRow(){
+        double worldWidth = getWorld().getHeight();
+        double eggs = countEggsInRow();
+        double total = eggs/worldWidth;
+        
+        return total;
+    }
 }
