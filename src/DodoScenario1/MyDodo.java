@@ -459,4 +459,14 @@ public class MyDodo extends Dodo
             moveOneStepDown();
         } 
     }
+    
+    public void makeStrongMonument(int height){
+        int layEgg = 1;
+        faceWest();
+        for(int i = 0; i < height; i++){
+            layEgg = layEgg + (1 * layEgg);
+            layEggTrailAndReturn(layEgg);
+            moveOneStepDown();
+        } 
+    }
 }
