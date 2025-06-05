@@ -469,4 +469,14 @@ public class MyDodo extends Dodo
             moveOneStepDown();
         } 
     }
+    
+    public void makePyramid(int height){
+        int layEgg = 1;
+        faceWest();
+        for(int i = 0; i < height; i++){
+            layEggTrailAndReturn(layEgg);
+            layEgg = layEgg + 2;
+            moveOneStepDown();
+        }
+    }
 }
