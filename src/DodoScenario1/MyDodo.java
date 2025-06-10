@@ -262,40 +262,28 @@ public class MyDodo extends Dodo
             move();
         }
     }
-    private void faceNorth(){
-        while(getDirection() != NORTH){
-            turnLeft();
+    public void faceDirection(int direction){
+        if (direction > 0 && direction < 4){
+            while(getDirection() != direction){
+                turnLeft();
+            }
         }
     }
-    private void faceEast(){
-        while(getDirection() != EAST){
-            turnLeft();
-        }
-    }
-    private void faceSouth(){
-        while(getDirection() != SOUTH){
-            turnLeft();
-        }
-    }
-    private void faceWest(){
-        while(getDirection() != WEST){
-            turnLeft();
-        }
-    }
+
     
     private void alignToXCord(int xCord){
         if(getX() > xCord){
-            faceWest();
+            faceDirection(3);
         }else{
-            faceEast();
+            faceDirection(1);
         }
     }
     
     private void alignToYCord(int yCord){
         if(getY() > yCord){
-            faceNorth();
+            faceDirection(0);
         }else{
-            faceSouth();
+            faceDirection(2);
         }
     }
     
@@ -371,7 +359,7 @@ public class MyDodo extends Dodo
     public void moveOneStepDown(){
         int startingDir = getDirection();
         
-        faceSouth();
+        faceDirection(2);
         if(borderAhead()==false){
             move();
         }
@@ -387,7 +375,7 @@ public class MyDodo extends Dodo
         int amount = 0;
         
         goToLocation(0, 0);
-        faceEast();
+        faceDirection(1);
         for(int i = 0; i < getWorld().getHeight(); i++){
             amount = amount + countEggsInRow();
             moveOneStepDown();
@@ -409,7 +397,7 @@ public class MyDodo extends Dodo
         int rowWithMostEgg = 0;
         
         goToLocation(0, 0);
-        faceEast();
+        faceDirection(1);
         for(int i = 0; i < getWorld().getHeight(); i++){
             thatRowAmount = countEggsInRow();
                 row = row + 1;
@@ -451,7 +439,7 @@ public class MyDodo extends Dodo
 
     public void makeMonument(int height){
         int layEgg = 0;
-        faceWest();
+        faceDirection(3);
         
         for(int i = 0; i < height; i++){
             layEgg = layEgg + 1;
@@ -462,7 +450,7 @@ public class MyDodo extends Dodo
     
     public void makeStrongMonument(int height){
         int layEgg = 1;
-        faceWest();
+        faceDirection(3);
         for(int i = 0; i < height; i++){
             layEgg = layEgg + (1 * layEgg);
             layEggTrailAndReturn(layEgg);
@@ -472,7 +460,7 @@ public class MyDodo extends Dodo
     
     public void makePyramid(int height){
         int layEgg = 1;
-        faceWest();
+        faceDirection(3);
         for(int i = 0; i < height; i++){
             layEggTrailAndReturn(layEgg);
             layEgg = layEgg + 2;
