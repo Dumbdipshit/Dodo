@@ -111,6 +111,10 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will walk to the world edge. On her way she will pick up all the grain that she ecounter
+     */
+    
     public void pickUpGrainWhenWalking(){
         walkToWorldEdge();
         if(onGrain()==true){
@@ -118,6 +122,9 @@ public class MyDodo extends Dodo
             }
     }
     
+    /*
+     * Mimi will walk to the world edge. On her way she will lay a egg in every nest that she ecounter
+     */
     public void layEggInNestWhenWalking(){
         walkToWorldEdge();
         if(onNest()==true && onEgg()==false){
@@ -125,12 +132,18 @@ public class MyDodo extends Dodo
             }
     }
     
+    /*
+     * Mimi will walk in a row nonstop until stopping on a egg
+     */
     public void goToEgg(){
         while(onEgg()==false || borderAhead()==true){
             move();
         }
     }
     
+    /*
+     * Mimi will clim over the fence ahead of her
+     */
         public void climbOverFence(){
             while(fenceAhead()==true){
                 turnLeft();
@@ -145,12 +158,18 @@ public class MyDodo extends Dodo
             }
     }
     
+    /*
+     * Mimi will walk 1 step back
+     */
     public void stepOneBack(){
         turn180();
         move();
         turn180();
     }
     
+    /*
+     * Mimi will detect if theres a grain ahead of her
+     */
     public boolean grainAhead(){
         boolean grain = false;
         move();
@@ -164,12 +183,18 @@ public class MyDodo extends Dodo
         return grain;
     }
     
+    /*
+     * Mimi will walk back to the world edge
+     */
     public void goBackRowFaceBack(){
         turn180();
         walkToWorldEdge( );
         turn180();
     }
     
+    /*
+     * Mimi will walk around a fence depending on her direction she will walk clockwise around the fence or anti clockwise
+     */
     public void walkAroundFence(){
         if(getDirection()== NORTH || getDirection()== WEST){
             walkAroundFenceAntiClockWise();
@@ -177,7 +202,10 @@ public class MyDodo extends Dodo
             walkAroundFenceClockWise();
         }
     }
-
+    
+    /*
+     * Mimi will walk around a fence clockwise
+     */
     private void walkAroundFenceClockWise(){
         while(onEgg()==false){
             turnRight();
@@ -188,6 +216,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will walk around a fence anticlockwise
+     */
     private void walkAroundFenceAntiClockWise(){
         while(onEgg()==false){
             turnLeft();
@@ -217,6 +248,9 @@ public class MyDodo extends Dodo
           }
     }
     
+    /*
+     * Mimi will walk and follow a train of egg stopping until she steps onto a nest
+     */
     public void followEggTrail(){
         while(onNest() == false){
             if(onEgg()== true){
@@ -235,6 +269,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will solve a simple maze. She will walk clockwise or anticlockwise depending on her starting direction
+     */
     public void solveVerySimpleMaze(){
         if(getDirection()== NORTH || getDirection()== WEST){
             solveVerySimpleMazeAntiClockWise();
@@ -242,7 +279,10 @@ public class MyDodo extends Dodo
             solveVerySimpleMazeClockWise();
         }
     }
-
+    
+    /*
+     * Mimi will solve a simple maze. She will walk clockwise
+     */
     private void solveVerySimpleMazeClockWise(){
         while(onNest()==false){
             turnRight();
@@ -253,6 +293,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will solve a simple maze. She will walk anticlockwise
+     */
     private void solveVerySimpleMazeAntiClockWise(){
         while(onNest()==false){
             turnLeft();
@@ -262,6 +305,10 @@ public class MyDodo extends Dodo
             move();
         }
     }
+    
+    /*
+     * Mimi will face the given direction
+     */
     public void faceDirection(int direction){
         if (direction > -1 && direction < 4){
             while(getDirection() != direction){
@@ -270,7 +317,9 @@ public class MyDodo extends Dodo
         }
     }
 
-    
+    /*
+     * Mimi will face the x axis
+     */
     private void alignToXCord(int xCord){
         if(getX() > xCord){
             faceDirection(3);
@@ -279,6 +328,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will face the y axis
+     */
     private void alignToYCord(int yCord){
         if(getY() > yCord){
             faceDirection(0);
@@ -287,6 +339,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will walk to the given location
+     */
     public void goToLocation(int xCord, int yCord){
         alignToXCord(xCord);
         while(getX()!=xCord){
@@ -302,6 +357,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will check if the cordinates exist
+     */
     public boolean validCordintes(int xCord, int yCord){
         int worldHeight = getWorld().getHeight();
         int worldWidth = getWorld().getWidth();
@@ -312,6 +370,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will count eggs in a row
+     */
     public int countEggsInRow(){
         int startingX = getX();
         int startingY = getY();
@@ -334,6 +395,9 @@ public class MyDodo extends Dodo
         return eggOnRow;
     }
     
+    /*
+     * Mimi will get the lenght of the row
+     */
     private int getRowLenght(int dir){
         if(dir == 0 || dir == 2){
              return getWorld().getHeight();
@@ -342,6 +406,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will lay a trail of egg. The amount that she lays is given by the user
+     */
     public void layTrailOfEgg(int amount){
             if(getRowLenght(getDirection()) > amount){
                 for(int i = 0; i < amount; i++){
@@ -356,6 +423,10 @@ public class MyDodo extends Dodo
             }
     }
     
+    
+    /*
+     * Mimi move one step down
+     */
     public void moveOneStepDown(){
         int startingDir = getDirection();
         
@@ -368,6 +439,9 @@ public class MyDodo extends Dodo
         }
     }
     
+    /*
+     * Mimi will count the total eggs in the world
+     */
     public int getAmountEggInMap(){
         int StartingX = getX();
         int StartingY = getY();
@@ -387,6 +461,9 @@ public class MyDodo extends Dodo
         return amount;
     }
     
+    /*
+     * Mimi will find the most eggs in a row
+     */
     public int getMostEggInRow(){
         int StartingX = getX();
         int StartingY = getY();
@@ -414,6 +491,9 @@ public class MyDodo extends Dodo
         return rowWithMostEgg;
     }
     
+    /*
+     * Mimi will find the average eggs in that row
+     */
     public double getAverageEggOfRow(){
         double worldWidth = getWorld().getHeight();
         double eggs = countEggsInRow();
@@ -422,6 +502,9 @@ public class MyDodo extends Dodo
         return total;
     }
     
+    /*
+     * Mimi will lay eggs in a row and return to her original postion. The amount of eggs she lays is given by the user
+     */
     private void layEggTrailAndReturn(int amount){
         for(int i = 0; i < amount; i++){
             if(borderAhead()==false){
@@ -437,6 +520,9 @@ public class MyDodo extends Dodo
         }
     }
 
+    /*
+     * Mimi will make a stair of eggs the height is given by the user
+     */
     public void makeMonument(int height){
         int layEgg = 0;
         faceDirection(3);
@@ -448,6 +534,9 @@ public class MyDodo extends Dodo
         } 
     }
     
+    /*
+     * Mimi will make a stair of eggs with a stronger foundation the height is given by the user
+     */
     public void makeStrongMonument(int height){
         int layEgg = 1;
         faceDirection(3);
@@ -458,6 +547,9 @@ public class MyDodo extends Dodo
         } 
     }
     
+    /*
+     * Mimi will make a pyramid of eggs the height is given by the user
+     */
     public void makePyramid(int height){
         int layEgg = 1;
         faceDirection(3);
