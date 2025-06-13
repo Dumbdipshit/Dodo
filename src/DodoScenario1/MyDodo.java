@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.List;
 /**
  *
  * @author Sjaak Smetsers & Renske Smetsers-Weeda
@@ -122,6 +122,31 @@ public class MyDodo extends Dodo
             }
     }
     
+    public Egg getNearestEgg(){
+        List<Egg> eggs = getWorld().getObjects(Egg.class);
+        
+        Egg closestEgg = null;
+        int distance = Integer.MAX_VALUE;
+        
+        for (Egg egg : eggs) {
+            int distanceX = Math.abs(egg.getX() - getX());
+            int distanceY = Math.abs(egg.getY() - getY());
+            
+            int distanceTotal = distanceX + distanceY;
+            
+            if (distanceTotal < distance) {
+                closestEgg = egg;
+                distance = distanceTotal;
+            }
+        }
+        
+        return closestEgg;
+    }
+    
+    public void goToNearestEgg(){
+        Egg egg = getNearestEgg();
+        goToLocation(egg.getX(),egg.getY());
+    }
     /*
      * Mimi will walk to the world edge. On her way she will lay a egg in every nest that she ecounter
      */
@@ -495,7 +520,7 @@ public class MyDodo extends Dodo
      * Mimi will find the average eggs in that row
      */
     public double getAverageEggOfRow(){
-        double worldWidth = getWorld().getHeight();
+        double worldWidth = getWorld().getWidth();
         double eggs = countEggsInRow();
         double total = eggs/worldWidth;
         
@@ -556,6 +581,71 @@ public class MyDodo extends Dodo
         for(int i = 0; i < height; i++){
             layEggTrailAndReturn(layEgg);
             layEgg = layEgg + 2;
+            moveOneStepDown();
+        }
+    }
+    
+    /*
+     * Check if the Horizontal row is a even number
+     */
+    private boolean checkEvenRowEgg(){
+        int startX = getX();
+        int startY = getY();
+        faceDirection(1);
+        int eggs = -1;
+        goBackRowFaceBack();
+        eggs = countEggsInRow();
+        goToLocation(startX, startY);
+        if (eggs % 2 == 0) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+    
+    /*
+     * Check if the Column row is a even number
+     */
+    private boolean checkEvenColumnEgg(){
+        int startX = getX();
+        int startY = getY();
+        int eggs = -1;
+        faceDirection(2);
+        goBackRowFaceBack();
+        eggs = countEggsInRow();
+        goToLocation(startX, startY);
+        faceDirection(1);
+        if (eggs % 2 == 0) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+    
+    /*
+     * Check if the position is even with X and Y
+     */
+    private void checkEvenPositionEgg(){
+        faceDirection(1);
+        
+        if(checkEvenRowEgg() == false && checkEvenColumnEgg() == false){
+            faceDirection(1);
+            layEgg();
+        }
+    }
+    
+    public void parit(){
+        goToLocation(0, 0);
+        int worldX = getWorld().getWidth();
+        int worldY = getWorld().getHeight();    
+        
+        for(int i = 0; i < worldY; i++){
+            for(int a = 0; a < worldX; a++){
+                checkEvenPositionEgg();
+                if(borderAhead()==false){
+                    move();
+                }
+            }goBackRowFaceBack();
             moveOneStepDown();
         }
     }
