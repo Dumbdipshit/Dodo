@@ -106,8 +106,9 @@ public class MyDodo extends Dodo
 
     public void walkToWorldEdge(){
         while(borderAhead() == false){
-            climbOverFence();
-            move();
+            if(borderAhead() == false){
+                move();
+            }
         }
     }
     
@@ -122,6 +123,9 @@ public class MyDodo extends Dodo
             }
     }
     
+    /*
+     * This function gets the information of the nearest egg
+     */
     public Egg getNearestEgg(){
         List<Egg> eggs = getWorld().getObjects(Egg.class);
         
@@ -143,10 +147,14 @@ public class MyDodo extends Dodo
         return closestEgg;
     }
     
+    /*
+     * This function goes to the nearest egg
+     */
     public void goToNearestEgg(){
         Egg egg = getNearestEgg();
         goToLocation(egg.getX(),egg.getY());
     }
+    
     /*
      * Mimi will walk to the world edge. On her way she will lay a egg in every nest that she ecounter
      */
@@ -408,7 +416,9 @@ public class MyDodo extends Dodo
             if(onEgg()==true){
                 eggOnRow = eggOnRow + 1;
             }
-            move();
+            if(borderAhead()==false){
+                move();
+            }
         }
         if(onEgg()==true){
                 eggOnRow = eggOnRow + 1;
@@ -454,14 +464,11 @@ public class MyDodo extends Dodo
      */
     public void moveOneStepDown(){
         int startingDir = getDirection();
-        
         faceDirection(2);
-        if(borderAhead()==false){
+        if(borderAhead() == false){
             move();
         }
-        while(getDirection()!=startingDir){
-            turnLeft();
-        }
+        faceDirection(startingDir);
     }
     
     /*
@@ -586,16 +593,21 @@ public class MyDodo extends Dodo
     }
     
     /*
-     * Check if the Horizontal row is a even number
+     * Check if the Row is a even number
+     * the input dir is the direction that mimi should face
+     * 
      */
-    private boolean checkEvenRowEgg(){
+    private boolean checkEvenEgg(int dir){
         int startX = getX();
         int startY = getY();
-        faceDirection(1);
+        int startDir = getDirection();
         int eggs = -1;
-        goBackRowFaceBack();
+        
+        faceDirection(dir);
         eggs = countEggsInRow();
+        
         goToLocation(startX, startY);
+        faceDirection(startDir);
         if (eggs % 2 == 0) {
           return true;
         } else {
@@ -604,49 +616,31 @@ public class MyDodo extends Dodo
     }
     
     /*
-     * Check if the Column row is a even number
+     *This function will parit only one mistake in a map
+     * 
+     * 
      */
-    private boolean checkEvenColumnEgg(){
-        int startX = getX();
-        int startY = getY();
-        int eggs = -1;
-        faceDirection(2);
-        goBackRowFaceBack();
-        eggs = countEggsInRow();
-        goToLocation(startX, startY);
-        faceDirection(1);
-        if (eggs % 2 == 0) {
-          return true;
-        } else {
-          return false;
+    public void paritOneMistake(){
+        goToLocation(0,0);
+        boolean rowIsEven = true;
+        boolean columnIsEven = true;
+        
+        while(rowIsEven == true){
+            if(checkEvenEgg(1) == true){
+                moveOneStepDown();
+            }else{
+                rowIsEven = false;
+            }
         }
+        while(columnIsEven == true){
+            if(checkEvenEgg(2) == true){
+                faceDirection(1);
+                move();
+            }else{
+                columnIsEven = false;
+            }
+        }
+        layEgg();
     }
     
-    /*
-     * Check if the position is even with X and Y
-     */
-    private void checkEvenPositionEgg(){
-        faceDirection(1);
-        
-        if(checkEvenRowEgg() == false && checkEvenColumnEgg() == false){
-            faceDirection(1);
-            layEgg();
-        }
-    }
-    
-    public void parit(){
-        goToLocation(0, 0);
-        int worldX = getWorld().getWidth();
-        int worldY = getWorld().getHeight();    
-        
-        for(int i = 0; i < worldY; i++){
-            for(int a = 0; a < worldX; a++){
-                checkEvenPositionEgg();
-                if(borderAhead()==false){
-                    move();
-                }
-            }goBackRowFaceBack();
-            moveOneStepDown();
-        }
-    }
 }
