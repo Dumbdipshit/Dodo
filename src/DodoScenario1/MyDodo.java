@@ -154,10 +154,9 @@ public class MyDodo extends Dodo
         List<Egg> eggs = getWorld().getObjects(Egg.class);
         
         Egg closestEgg = null;
-        int distance = Integer.MAX_VALUE;
         int value = 0;
         
-        for (Egg egg : eggs) {
+        for (Egg egg : eggs) {    
             if(egg.getValue() > value){
                 value = egg.getValue();
                 int distanceX = Math.abs(egg.getX() - getX());
@@ -165,10 +164,7 @@ public class MyDodo extends Dodo
             
                 int distanceTotal = distanceX + distanceY;
             
-                if (distanceTotal < distance) {
-                    closestEgg = egg;
-                    distance = distanceTotal;
-                }
+                closestEgg = egg;
             }
         }
         
