@@ -677,4 +677,21 @@ public class MyDodo extends Dodo
         layEgg();
     }
     
+    public int faceRandomDirection(){
+        int randomDir =  Greenfoot.getRandomNumber(4);
+        faceDirection(randomDir);
+        return randomDir;
+    }
+    
+    public void moveRandomly(){
+        int moveTotalSteps =  Greenfoot.getRandomNumber(40) + 1;
+        
+        for(int i = 0; i < moveTotalSteps; i++){
+            faceRandomDirection();
+            while(borderAhead()==true){
+                faceRandomDirection();
+            }
+            move();
+        }
+    }
 }
