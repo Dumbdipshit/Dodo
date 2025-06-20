@@ -148,6 +148,44 @@ public class MyDodo extends Dodo
     }
     
     /*
+     * This function gets the highest value of egg in the map
+     */
+    public Egg getValuableAEgg(){
+        List<Egg> eggs = getWorld().getObjects(Egg.class);
+        
+        Egg closestEgg = null;
+        int distance = Integer.MAX_VALUE;
+        int value = 0;
+        
+        for (Egg egg : eggs) {
+            if(egg.getValue() > value){
+                value = egg.getValue();
+                int distanceX = Math.abs(egg.getX() - getX());
+                int distanceY = Math.abs(egg.getY() - getY());
+            
+                int distanceTotal = distanceX + distanceY;
+            
+                if (distanceTotal < distance) {
+                    closestEgg = egg;
+                    distance = distanceTotal;
+                }
+            }
+        }
+        
+        return closestEgg;
+    }
+    
+    /*
+     * This function goes to the most valuable egg
+     */
+    public void goToValueableEgg(){
+        Egg egg = getValuableAEgg();
+        goToLocation(egg.getX(),egg.getY());
+    }
+
+    
+    
+    /*
      * This function goes to the nearest egg
      */
     public void goToNearestEgg(){
@@ -169,7 +207,7 @@ public class MyDodo extends Dodo
      * Mimi will walk in a row nonstop until stopping on a egg
      */
     public void goToEgg(){
-        while(onEgg()==false || borderAhead()==true){
+        while(onEgg()==false || borderAhead()==false){
             move();
         }
     }
