@@ -8,10 +8,11 @@ import java.util.List;
 public class MyDodo extends Dodo
 {
     private int myNrOfEggsHatched;
-    
+    private int eggScore;
     public MyDodo() {
         super( EAST );
         myNrOfEggsHatched = 0;
+        eggScore = 0;
     }
 
     public void act() {
@@ -61,11 +62,19 @@ public class MyDodo extends Dodo
      */    
     public void hatchEgg () {
         if ( onEgg() ) {
+            eggScore = eggScore + getEggValue();
             pickUpEgg();
             myNrOfEggsHatched++;
         } else {
             showError( "There was no egg in this cell" );
         }
+    }
+    
+    /*
+     * This function gets the total score that is collected
+     */
+    public int getEggScore(){
+        return eggScore;
     }
     
     /**
@@ -172,6 +181,31 @@ public class MyDodo extends Dodo
     }
     
     /*
+     * This function gets the value of the nearest egg
+     */
+    public int getEggValue(){
+        List<Egg> eggs = getWorld().getObjects(Egg.class);
+        
+        int distance = Integer.MAX_VALUE;
+        int valueEgg = 0;
+        if(onEgg()==true){
+            for (Egg egg : eggs) {
+                int distanceX = Math.abs(egg.getX() - getX());
+                int distanceY = Math.abs(egg.getY() - getY());
+                
+                int distanceTotal = distanceX + distanceY;
+                
+                if (distanceTotal < distance) {
+                    valueEgg = egg.getValue();
+                    distance = distanceTotal;
+                }
+            }
+        }
+        
+        return valueEgg;
+    }
+    
+    /*
      * This function goes to the most valuable egg
      */
     public void goToValueableEgg(){
@@ -179,8 +213,6 @@ public class MyDodo extends Dodo
         goToLocation(egg.getX(),egg.getY());
     }
 
-    
-    
     /*
      * This function goes to the nearest egg
      */
