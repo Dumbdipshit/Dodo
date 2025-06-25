@@ -9,6 +9,7 @@ public class MyDodo extends Dodo
 {
     private int myNrOfEggsHatched;
     private int eggScore;
+    public int currentSteps = 0;
     public MyDodo() {
         super( EAST );
         myNrOfEggsHatched = 0;
@@ -28,8 +29,10 @@ public class MyDodo extends Dodo
     public void move() {
         if ( canMove() ) {
             step();
+            currentSteps = currentSteps + 1;
+            updateScores(Mauritius.MAXSTEPS - currentSteps, getEggScore());
         } else {
-            showError( "I'm stuck!" );
+            showError( "I'm not allowed to move!" );
         }
     }
 
@@ -45,13 +48,45 @@ public class MyDodo extends Dodo
      *                      (an obstruction or end of world ahead)
      */
     public boolean canMove() {
-        if ( borderAhead()||fenceAhead() ){
+        if ( borderAhead()||fenceAhead()|| (Mauritius.MAXSTEPS-currentSteps == 0)){
             return false;
         } else {
             return true;
         }
     }
-
+    
+    /*
+     * This function gets the distance of the nearest egg
+     */
+    public int nearestEggDistance(){
+        List<Egg> eggs = getWorld().getObjects(Egg.class);
+        
+        Egg closestEgg = null;
+        int distance = Integer.MAX_VALUE;
+        
+        for (Egg egg : eggs) {
+            int distanceX = Math.abs(egg.getX() - getX());
+            int distanceY = Math.abs(egg.getY() - getY());
+            
+            int distanceTotal = distanceX + distanceY;
+            
+            if (distanceTotal < distance) {
+                closestEgg = egg;
+                distance = distanceTotal;
+            }
+        }
+        
+        return distance;
+    }
+    
+    public void pickUpMostEgg(){
+        while(nearestEggDistance() < Mauritius.MAXSTEPS-currentSteps){
+            goToNearestEgg();
+            hatchEgg();
+        }
+        moveRandomly(Mauritius.MAXSTEPS-currentSteps);
+    }
+    
     /**
      * Hatches the egg in the current cell by removing
      * the egg from the cell.
@@ -65,6 +100,7 @@ public class MyDodo extends Dodo
             eggScore = eggScore + getEggValue();
             pickUpEgg();
             myNrOfEggsHatched++;
+            updateScores(Mauritius.MAXSTEPS - currentSteps, getEggScore());
         } else {
             showError( "There was no egg in this cell" );
         }
@@ -102,9 +138,6 @@ public class MyDodo extends Dodo
         }
     }
 
-    
-    
-    
     /**
      * Walks to edge of the world printing the coordinates at each step
      * 
@@ -159,7 +192,7 @@ public class MyDodo extends Dodo
     /*
      * This function gets the highest value of egg in the map
      */
-    public Egg getValuableAEgg(){
+    private Egg getValuableAEgg(){
         List<Egg> eggs = getWorld().getObjects(Egg.class);
         
         Egg closestEgg = null;
@@ -183,7 +216,7 @@ public class MyDodo extends Dodo
     /*
      * This function gets the value of the nearest egg
      */
-    public int getEggValue(){
+    private int getEggValue(){
         List<Egg> eggs = getWorld().getObjects(Egg.class);
         
         int distance = Integer.MAX_VALUE;
@@ -443,23 +476,19 @@ public class MyDodo extends Dodo
      */
     public void goToLocation(int xCord, int yCord){
         alignToXCord(xCord);
-        while(getX()!=xCord){
-            if(canMove()==true){
-                move();
-            }
+        while(getX()!=xCord && canMove() == true){
+            move();
         }
         alignToYCord(yCord);
-        while(getY()!=yCord){
-            if(canMove()==true){
-                move();
-            }
+        while(getY()!=yCord && canMove() == true){
+            move();
         }
     }
     
     /*
      * Mimi will check if the cordinates exist
      */
-    public boolean validCordintes(int xCord, int yCord){
+    private boolean validCordintes(int xCord, int yCord){
         int worldHeight = getWorld().getHeight();
         int worldWidth = getWorld().getWidth();
         if(worldHeight < yCord || worldWidth < xCord || yCord < 0 || xCord < 0){
@@ -715,10 +744,8 @@ public class MyDodo extends Dodo
         return randomDir;
     }
     
-    public void moveRandomly(){
-        int moveTotalSteps =  Greenfoot.getRandomNumber(40) + 1;
-        
-        for(int i = 0; i < moveTotalSteps; i++){
+    public void moveRandomly(int step){ 
+        for(int i = 0; i < step; i++){
             faceRandomDirection();
             while(borderAhead()==true){
                 faceRandomDirection();

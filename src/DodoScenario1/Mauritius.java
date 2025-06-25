@@ -12,35 +12,35 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * Mauritius.
  * 
  * @author Sjaak Smetsers & Renske Smetsers-Weeda
- * @version 3.1 -- 03-07-2017
+ * @version 3.1 -- 29-07-2017
  */
 public class Mauritius extends World
 {
     private static final String WORLD_NAME = "saved.txt";
     private static File WORLD_FILE = null;
 
-    private static final int MAXWIDTH = 10, MAXHEIGHT = 10, CELLSIZE = 60;
-
+    private static final int MAXWIDTH = 12, MAXHEIGHT = 12, CELLSIZE = 60;
+    
     private Scoreboard theScoreboard = new Scoreboard ( "Moves left:", MAXSTEPS, "Score:", 0);
-
+    
     public static final int MAXSTEPS = 40;
 
     private static boolean traceOn = true;
 
     private static final char
-    FENCE      = '#'            ,
-    EGG_YELLOW = '$'            ,
-    EGG_BLUE   = '.'            ,
-    NEST       = '='            ,
-    GRAIN      = '+'            ,
-    DODO_N     = 'N'            ,
-    DODO_S     = 'S'            ,
-    DODO_E     = 'E'            ,
-    DODO_W     = 'W'            ;
+        FENCE      = '#'            ,
+        EGG_YELLOW = '$'            ,
+        EGG_BLUE   = '.'            ,
+        NEST       = '='            ,
+        GRAIN      = '+'            ,
+        DODO_N     = 'N'            ,
+        DODO_S     = 'S'            ,
+        DODO_E     = 'E'            ,
+        DODO_W     = 'W'            ;
 
     private static WorldReader WORLD_READER = null;
     private static int WORLD_WIDTH, WORLD_HEIGHT;
-
+    
     static {
         if ( ! WORLD_NAME.isEmpty() ) {
             WORLD_FILE   = new File ( WorldWriter.WORLD_PATH + WORLD_NAME );           
@@ -50,13 +50,12 @@ public class Mauritius extends World
             WORLD_HEIGHT = MAXHEIGHT;
         }            
     }
-
+    
     private static void initWorldInfo() {
-        WORLD_READER = new WorldReader ( WORLD_FILE );
-        WORLD_WIDTH  = WORLD_READER.getWorldWidth();
-        WORLD_HEIGHT = WORLD_READER.getWorldHeight();
+         WORLD_READER = new WorldReader ( WORLD_FILE );
+         WORLD_WIDTH  = WORLD_READER.getWorldWidth();
+         WORLD_HEIGHT = WORLD_READER.getWorldHeight();
     }
-
     /**
      * Constructor for objects of class ChickenWorld.
      * 
@@ -64,9 +63,10 @@ public class Mauritius extends World
     public Mauritius() {    
         super(WORLD_WIDTH, WORLD_HEIGHT, CELLSIZE); 
         setPaintOrder (Message.class, Scoreboard.class, Dodo.class, Grain.class,
-            Nest.class, Egg.class, Fence.class);        
+                       Nest.class, Egg.class, Fence.class);        
         populate();
-        prepare();
+        // remove comment if you want to add a scoreboard
+        addScoreboard();
     }
 
     public static void traceOn() {
@@ -81,10 +81,14 @@ public class Mauritius extends World
         return traceOn;
     }
 
+    private void addScoreboard() {
+        addObject( theScoreboard, 2, getHeight()-1 );
+    }
+
     public void updateScore( int ... scores ){
         theScoreboard.updateScore( scores );
     }
-
+    
     private Actor charToActor( char c ) {
         MyDodo newDodo;
         switch ( c ) {
@@ -138,11 +142,11 @@ public class Mauritius extends World
             }
         }            
     }
-
+    
     private void removeAllActors() {
         removeObjects( getObjects( null ) );
     }
-
+    
     private char getActorAt( int x, int y ){
         List<Actor> actors = getObjectsAt(x, y, null);
         if ( actors.size() > 0 ) {
@@ -187,7 +191,7 @@ public class Mauritius extends World
         } catch ( IOException ioe ) {
         }
     }
-
+    
     public void populateFromFile() {
         File world_files = new File ( WorldWriter.WORLD_PATH );
         JFileChooser chooser = new JFileChooser( world_files );
@@ -215,33 +219,9 @@ public class Mauritius extends World
         }
         return true;
     }
-
+    
     private static void showError( World world, String err_msg ) {
         Message.showMessage(  new Alert (err_msg), world );
     }
-
-    /**
-     * Prepare the world for the start of the program.
-     * That is: create the initial objects and add them to the world.
-     */
-    private void prepare()
-    {
-        MyDodo myDodo = new MyDodo();
-        addObject(myDodo,4,3);
-        MyDodo myDodo2 = new MyDodo();
-        addObject(myDodo2,5,3);
-        myDodo2.setLocation(5,3);
-        removeObject(myDodo2);
-        Fence fence = new Fence();
-        addObject(fence,5,3);
-        myDodo.canMove();
-        myDodo.jump(2);
-        myDodo.jump(10);
-        myDodo.setLocation(4,3);
-        fence.setLocation(5,3);
-        myDodo.turnLeft();
-        myDodo.move();
-        removeObject(myDodo);
-        removeObject(fence);
-    }
+        
 }
